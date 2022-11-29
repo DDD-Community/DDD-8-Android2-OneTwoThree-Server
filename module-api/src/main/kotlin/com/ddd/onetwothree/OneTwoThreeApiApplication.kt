@@ -1,11 +1,13 @@
 package com.ddd.onetwothree
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 
+@ConfigurationPropertiesScan
 @SpringBootApplication
-class OnetwothreeApplication
+class OneTwoThreeApiApplication
 
 fun main(args: Array<String>) {
-    runApplication<OnetwothreeApplication>(*args)
+    runApplication<OneTwoThreeApiApplication>(*args)
 }
