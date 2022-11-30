@@ -1,6 +1,7 @@
 
 dependencies {
     api("org.springframework.boot:spring-boot-starter-data-jpa")
+    api("com.google.firebase:firebase-admin:7.1.1")
 
     runtimeOnly("mysql:mysql-connector-java")
     runtimeOnly("com.h2database:h2")
