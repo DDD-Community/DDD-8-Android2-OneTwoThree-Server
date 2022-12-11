@@ -16,6 +16,8 @@ class Push(
 
     @Enumerated(EnumType.STRING)
     var dayOfWeek: DayOfWeek,
+
+    @Column(name = "push_time")
     var time: LocalTime,
 
     @Column(name = "exclude_holiday_yn")
