@@ -12,5 +12,5 @@ class Member(
     var firebaseToken: String,
     var nickname: String
 
-) {
+): Base() {
 }

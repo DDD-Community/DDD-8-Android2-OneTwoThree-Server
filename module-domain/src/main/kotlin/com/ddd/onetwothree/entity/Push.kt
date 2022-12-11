@@ -23,5 +23,5 @@ class Push(
     @Column(name = "exclude_holiday_yn")
     var excludeHoliday: Boolean
 
-) {
+): Base() {
 }
