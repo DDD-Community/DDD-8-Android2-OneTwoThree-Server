@@ -10,7 +10,7 @@ class FcmNotificationService(
     private val fcm: FirebaseMessaging
 ) {
 
-    fun pushMessage(token: String, msg: String) {
+    fun pushMessage(token: String, msg: String): String {
         val notification = Notification.builder()
             .setTitle(DEFAULT_TITLE)
             .setBody(msg)
@@ -19,7 +19,7 @@ class FcmNotificationService(
             .setToken(token)
             .setNotification(notification)
             .build()
-        fcm.send(message)
+        return fcm.send(message)
     }
 
     companion object {

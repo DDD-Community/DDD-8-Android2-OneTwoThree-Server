@@ -2,6 +2,7 @@ package com.ddd.onetwothree.controller
 
 import com.ddd.onetwothree.client.fcm.service.FcmNotificationService
 import com.ddd.onetwothree.controller.request.FcmPushRequest
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,8 +15,10 @@ class FcmTestController(
 ) {
 
     @PostMapping("/push")
-    fun pushMessage(@RequestBody req: FcmPushRequest) {
-        fcmNotificationService.pushMessage(req.token, req.message)
+    fun pushMessage(@RequestBody req: FcmPushRequest): ResponseEntity<String> {
+        return fcmNotificationService.pushMessage(req.token, req.message).let {
+            ResponseEntity.ok(it)
+        }
     }
 
 }
