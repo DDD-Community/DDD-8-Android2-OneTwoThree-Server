@@ -13,5 +13,5 @@ class Alarm(
     @JoinColumn(name = "member_id", referencedColumnName = "member_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var member: Member
 
-) {
+): Base() {
 }
