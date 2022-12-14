@@ -11,6 +11,8 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.time.Duration
+import java.time.LocalTime
 
 internal class MemberServiceTest {
 

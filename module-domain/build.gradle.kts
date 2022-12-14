@@ -1,5 +1,7 @@
 
 dependencies {
+    implementation(project(":module-common"))
+
     api("org.springframework.boot:spring-boot-starter-data-jpa")
     api("com.google.firebase:firebase-admin:9.1.1")
 
