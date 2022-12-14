@@ -6,9 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils
 import javax.sql.DataSource
 
-interface PushRepository : Repository<Push, Long>, PushJdbcRepository {
-
-}
+interface PushRepository: Repository<Push, Long>, PushJdbcRepository
 
 interface PushJdbcRepository {
     fun saveAll(pushList: List<Push>): List<Push>

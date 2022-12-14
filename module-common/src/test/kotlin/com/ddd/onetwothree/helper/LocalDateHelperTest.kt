@@ -1,6 +1,5 @@
 package com.ddd.onetwothree.helper
 
-import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -19,7 +18,7 @@ internal class LocalDateHelperTest {
         generateLocalTimeInterval(start, end, count).let {
             it.shouldNotBeNull()
             it.size shouldBe count
-            it shouldBeEqualToComparingFields listOf(
+            it shouldBe listOf(
                 LocalTime.of(10, 30),
                 LocalTime.of(12, 0),
                 LocalTime.of(13, 30),

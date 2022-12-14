@@ -8,14 +8,14 @@ import java.time.LocalTime
 data class AlarmResponse(
     val dayOfWeeks: List<DayOfWeek>,
     val excludeHoliday: Boolean,
-    val pushTimeList: List<LocalTime>
+    val pushTimeList: Set<LocalTime>
 ) {
     companion object {
         fun of(req: CreateAlarmRequest, pushList: List<Push>): AlarmResponse {
             return AlarmResponse(
                 dayOfWeeks = req.dayOfWeeks,
                 excludeHoliday = req.excludeHoliday,
-                pushTimeList = pushList.map { it.time }
+                pushTimeList = pushList.groupBy { it.time }.keys
             )
         }
     }

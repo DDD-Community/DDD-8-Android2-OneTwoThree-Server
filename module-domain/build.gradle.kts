@@ -3,6 +3,7 @@ dependencies {
     implementation(project(":module-common"))
 
     api("org.springframework.boot:spring-boot-starter-data-jpa")
+    api("org.springframework.boot:spring-boot-starter-data-jdbc")
     api("com.google.firebase:firebase-admin:9.1.1")
 
     runtimeOnly("mysql:mysql-connector-java")

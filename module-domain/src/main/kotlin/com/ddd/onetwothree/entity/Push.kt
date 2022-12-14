@@ -42,6 +42,9 @@ class Push(
     companion object {
         fun ofList(req: PushListCreateRequest): List<Push> {
             return req.dayOfWeeks.flatMap { dayOfWeek ->
+                if (req.excludeHoliday.and(dayOfWeek in listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY))) {
+                    return@flatMap emptyList()
+                }
                 req.pushTimes.map { time ->
                     Push(
                         alarmId = req.alarm.id!!,
