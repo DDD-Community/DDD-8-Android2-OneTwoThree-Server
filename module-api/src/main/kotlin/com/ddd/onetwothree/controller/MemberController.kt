@@ -3,7 +3,7 @@ package com.ddd.onetwothree.controller
 import com.ddd.onetwothree.controller.request.RegisterRequest
 import com.ddd.onetwothree.controller.response.RegisterResponse
 import com.ddd.onetwothree.service.MemberService
-import org.springframework.http.ResponseEntity
+import com.ddd.onetwothree.controller.response.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
