@@ -1,8 +1,6 @@
 package com.ddd.onetwothree.entity
 
-import com.ddd.onetwothree.dto.PushListCreateRequest
 import jakarta.persistence.*
-import org.jetbrains.kotlin.konan.util.visibleName
 import java.time.DayOfWeek
 import java.time.LocalTime
 
@@ -38,23 +36,4 @@ class Push(
         "created_at" to this.createdAt,
         "updated_at" to this.updatedAt
     )
-
-    companion object {
-        fun ofList(req: PushListCreateRequest): List<Push> {
-            return req.dayOfWeeks.flatMap { dayOfWeek ->
-                if (req.excludeHoliday.and(dayOfWeek in listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY))) {
-                    return@flatMap emptyList()
-                }
-                req.pushTimes.map { time ->
-                    Push(
-                        alarmId = req.alarm.id!!,
-                        firebaseToken = req.alarm.member.firebaseToken,
-                        dayOfWeek = dayOfWeek,
-                        excludeHoliday = req.excludeHoliday,
-                        time = time
-                    )
-                }
-            }
-        }
-    }
 }

@@ -1,11 +1,13 @@
 package com.ddd.onetwothree.controller
 
+import com.ddd.onetwothree.annotation.RequiredUserInfo
 import com.ddd.onetwothree.controller.request.ChangeNicknameRequest
 import com.ddd.onetwothree.controller.request.RegisterRequest
 import com.ddd.onetwothree.controller.response.MemberResponse
 import com.ddd.onetwothree.controller.response.RegisterResponse
 import com.ddd.onetwothree.service.MemberService
 import com.ddd.onetwothree.controller.response.ResponseEntity
+import com.ddd.onetwothree.support.UserContextHolder
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -26,8 +28,10 @@ class MemberController(
             .let { ResponseEntity.ok(it) }
     }
 
-    @PutMapping("/{memberId}/nickname")
-    fun changeNickname(@PathVariable memberId: Long, @RequestBody req: ChangeNicknameRequest): ResponseEntity<Unit> {
+    @PutMapping("/nickname")
+    @RequiredUserInfo
+    fun changeNickname(@RequestBody req: ChangeNicknameRequest): ResponseEntity<Unit> {
+        val memberId = UserContextHolder.getContext().memberId
         return memberService.changeNickname(memberId, req.nickname)
             .let { ResponseEntity.ok() }
     }
