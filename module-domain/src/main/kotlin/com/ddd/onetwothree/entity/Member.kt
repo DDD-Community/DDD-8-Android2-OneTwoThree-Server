@@ -14,7 +14,9 @@ class Member(
 
 ): Base() {
     fun changeNickname(nickname: String): Member {
-        this.nickname = nickname
+        if (nickname.isNotBlank()) {
+            this.nickname = nickname
+        }
         return this
     }
 }

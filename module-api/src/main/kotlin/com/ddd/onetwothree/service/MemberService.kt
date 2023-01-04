@@ -1,6 +1,5 @@
 package com.ddd.onetwothree.service
 
-import com.ddd.onetwothree.controller.request.ChangeNicknameRequest
 import com.ddd.onetwothree.controller.request.RegisterRequest
 import com.ddd.onetwothree.controller.response.MemberResponse
 import com.ddd.onetwothree.controller.response.RegisterResponse
