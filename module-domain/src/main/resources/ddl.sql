@@ -11,6 +11,11 @@ create index idx_member_createdat on member(created_at);
 CREATE TABLE alarm (
     alarm_id bigint primary key auto_increment,
     member_id bigint not null,
+    day_of_weeks varchar(255) not null,
+    exclude_holiday varchar(1) not null default 'N',
+    start_time time not null,
+    end_time time not null,
+    count bigint not null,
 
     created_at timestamp not null default current_timestamp,
     updated_at timestamp not null default current_timestamp on update current_timestamp

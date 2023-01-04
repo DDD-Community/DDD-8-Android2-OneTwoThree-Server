@@ -8,7 +8,6 @@ import com.ddd.onetwothree.exception.ErrorCode
 import com.ddd.onetwothree.exception.NotFoundResourceException
 import com.ddd.onetwothree.helper.generateLocalTimeInterval
 import com.ddd.onetwothree.repository.AlarmRepository
-import com.ddd.onetwothree.repository.MemberRepository
 import com.ddd.onetwothree.repository.PushRepository
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
@@ -23,10 +22,10 @@ import java.time.LocalTime
 
 class AlarmServiceTest {
 
-    private val memberRepository: MemberRepository = mock()
+    private val memberDomainService: MemberDomainService = mock()
     private val alarmRepository: AlarmRepository = mock()
     private val pushRepository: PushRepository = mock()
-    private val alarmService = AlarmService(memberRepository, alarmRepository, pushRepository)
+    private val alarmService = AlarmService(memberDomainService, alarmRepository, pushRepository)
 
     @Test
     fun `create - 정상동작 확인`() {
@@ -41,7 +40,7 @@ class AlarmServiceTest {
             endTime = LocalTime.of(18, 0),
             count = 5
         )
-        whenever(memberRepository.findById(any())).thenReturn(member.apply { this.id = 1L })
+        whenever(memberDomainService.findById(any())).thenReturn(member.apply { this.id = 1L })
         whenever(alarmRepository.save(any())).thenReturn(alarm.apply { this.id = 1L })
         whenever(pushRepository.saveAll(any()))
             .thenReturn(
@@ -73,7 +72,7 @@ class AlarmServiceTest {
             endTime = LocalTime.of(18, 0),
             count = 5
         )
-        whenever(memberRepository.findById(any())).thenReturn(null)
+        whenever(memberDomainService.findById(any())).thenThrow(NotFoundResourceException(Member::class))
 
         // when & then
         shouldThrow<NotFoundResourceException> {

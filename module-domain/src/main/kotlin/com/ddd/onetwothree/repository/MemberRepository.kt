@@ -9,5 +9,6 @@ interface MemberRepository : Repository<Member, Long> {
     @Modifying
     fun save(member: Member): Member
     fun findById(memberId: Long): Member?
+    fun findByFirebaseToken(firebaseToken: String): Member?
 
 }

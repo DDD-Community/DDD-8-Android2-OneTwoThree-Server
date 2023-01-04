@@ -1,13 +1,12 @@
 package com.ddd.onetwothree.controller
 
+import com.ddd.onetwothree.annotation.RequiredUserInfo
 import com.ddd.onetwothree.controller.request.CreateAlarmRequest
 import com.ddd.onetwothree.controller.response.AlarmResponse
+import com.ddd.onetwothree.controller.response.ResponseEntity
 import com.ddd.onetwothree.service.AlarmService
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.ddd.onetwothree.support.UserContextHolder
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/alarm")
@@ -16,10 +15,25 @@ class AlarmController(
 ) {
 
     @PostMapping
-    fun createAlarm(@RequestBody req: CreateAlarmRequest): ResponseEntity<AlarmResponse> {
-        return alarmService.create(req).let {
-            ResponseEntity.ok(it)
-        }
+    @RequiredUserInfo
+    fun createAlarm(@RequestBody req: CreateAlarmRequest): ResponseEntity<Unit> {
+        val memberId = UserContextHolder.getContext().memberId
+        return alarmService.create(memberId, req)
+            .let { ResponseEntity.ok() }
+    }
+
+    @DeleteMapping("/{alarmId}")
+    fun deleteAlarm(@PathVariable alarmId: Long): ResponseEntity<Unit> {
+        return alarmService.delete(alarmId)
+            .let { ResponseEntity.ok() }
+    }
+
+    @GetMapping
+    @RequiredUserInfo
+    fun retrieveAlarm(): ResponseEntity<List<AlarmResponse>> {
+        val memberId = UserContextHolder.getContext().memberId
+        return alarmService.findAll(memberId)
+            .let { ResponseEntity(it) }
     }
 
 }

@@ -1,12 +1,18 @@
 package com.ddd.onetwothree.repository
 
 import com.ddd.onetwothree.entity.Push
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.repository.Repository
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils
 import javax.sql.DataSource
 
-interface PushRepository: Repository<Push, Long>, PushJdbcRepository
+interface PushRepository: Repository<Push, Long>, PushJdbcRepository {
+    fun findByAlarmId(alarmId: Long): List<Push>
+    @Modifying
+    fun deleteAllByAlarmId(alarmId: Long)
+
+}
 
 interface PushJdbcRepository {
     fun saveAll(pushList: List<Push>): List<Push>

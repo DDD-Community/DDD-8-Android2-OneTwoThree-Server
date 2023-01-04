@@ -2,33 +2,42 @@ package com.ddd.onetwothree.service
 
 import com.ddd.onetwothree.controller.request.CreateAlarmRequest
 import com.ddd.onetwothree.controller.response.AlarmResponse
-import com.ddd.onetwothree.entity.Alarm
-import com.ddd.onetwothree.entity.Member
-import com.ddd.onetwothree.entity.Push
-import com.ddd.onetwothree.exception.NotFoundResourceException
 import com.ddd.onetwothree.repository.AlarmRepository
-import com.ddd.onetwothree.repository.MemberRepository
 import com.ddd.onetwothree.repository.PushRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AlarmService(
-    private val memberRepository: MemberRepository,
+    private val memberDomainService: MemberDomainService,
     private val alarmRepository: AlarmRepository,
     private val pushRepository: PushRepository
 ) {
 
-    @Transactional
-    fun create(req: CreateAlarmRequest): AlarmResponse {
-        val member = memberRepository.findById(req.memberId) ?: throw NotFoundResourceException(Member::class)
+    fun findAll(memberId: Long): List<AlarmResponse> {
+        val member = memberDomainService.findById(memberId)
+        return alarmRepository.findAllByMember(member)
+            .map {
+                val pushList = pushRepository.findByAlarmId(it.id!!)
+                AlarmResponse.of(it, pushList)
+            }
+    }
 
-        return alarmRepository.save(Alarm(member = member)).let {
-            val pushList = Push.ofList(req.toPushListCreateRequest(it))
-            pushRepository.saveAll(pushList)
+    @Transactional
+    fun create(memberId: Long, req: CreateAlarmRequest): AlarmResponse {
+        val member = memberDomainService.findById(memberId)
+        return req.toAlarm(member).let {
+            alarmRepository.save(it)
         }.let {
-            AlarmResponse.of(req, it)
+            val pushList = pushRepository.saveAll(it.generatePushList())
+            AlarmResponse.of(it, pushList)
         }
+    }
+
+    @Transactional
+    fun delete(alarmId: Long) {
+        pushRepository.deleteAllByAlarmId(alarmId)
+        alarmRepository.deleteById(alarmId)
     }
 
 }

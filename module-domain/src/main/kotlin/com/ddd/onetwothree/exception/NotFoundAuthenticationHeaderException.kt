@@ -1,0 +1,3 @@
+package com.ddd.onetwothree.exception
+
+class NotFoundAuthenticationHeaderException: BusinessException(ErrorCode.UN_AUTHORIZATION)
