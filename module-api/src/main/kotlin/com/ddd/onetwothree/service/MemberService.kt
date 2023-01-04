@@ -3,8 +3,6 @@ package com.ddd.onetwothree.service
 import com.ddd.onetwothree.controller.request.RegisterRequest
 import com.ddd.onetwothree.controller.response.MemberResponse
 import com.ddd.onetwothree.controller.response.RegisterResponse
-import com.ddd.onetwothree.entity.Member
-import com.ddd.onetwothree.exception.NotFoundResourceException
 import com.ddd.onetwothree.repository.MemberRepository
 import org.springframework.stereotype.Service
 
@@ -21,13 +19,13 @@ class MemberService(
     }
 
     fun find(firebaseToken: String): MemberResponse {
-        return memberRepository.findByFirebaseToken(firebaseToken)?.let {
+        return memberDomainService.findByFirebaseToken(firebaseToken).let {
             MemberResponse.of(it)
-        } ?: throw NotFoundResourceException(Member::class)
+        }
     }
 
     fun changeNickname(memberId: Long, nickname: String) {
-        memberDomainService.find(memberId).let {
+        memberDomainService.findById(memberId).let {
             memberRepository.save(it.changeNickname(nickname))
         }
     }

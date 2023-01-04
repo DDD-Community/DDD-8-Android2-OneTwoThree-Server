@@ -11,8 +11,13 @@ class MemberDomainService(
     private val memberRepository: MemberRepository
 ) {
 
-    fun find(memberId: Long): Member {
+    fun findById(memberId: Long): Member {
         return memberRepository.findById(memberId)
+            ?: throw NotFoundResourceException(Member::class)
+    }
+
+    fun findByFirebaseToken(firebaseToken: String): Member {
+        return memberRepository.findByFirebaseToken(firebaseToken)
             ?: throw NotFoundResourceException(Member::class)
     }
 

@@ -18,7 +18,7 @@ class AlarmService(
 
     @Transactional
     fun create(req: CreateAlarmRequest): AlarmResponse {
-        val member = memberDomainService.find(req.memberId)
+        val member = memberDomainService.findById(req.memberId)
 
         return alarmRepository.save(Alarm(member = member)).let {
             val pushList = Push.ofList(req.toPushListCreateRequest(it))

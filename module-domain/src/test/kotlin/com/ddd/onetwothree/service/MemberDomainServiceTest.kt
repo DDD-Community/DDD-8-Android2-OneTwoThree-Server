@@ -19,25 +19,51 @@ class MemberDomainServiceTest {
     private val memberDomainService = MemberDomainService(memberRepository)
 
     @Test
-    fun `find - 정상동작 확인`() {
+    fun `findById - 정상동작 확인`() {
         // given
         val member = Member(id = 1L, firebaseToken = "sample_firebase_token", nickname = "ch4njun")
         whenever(memberRepository.findById(any())).thenReturn(member)
 
         // when & then
         shouldNotThrow<NotFoundResourceException> {
-            memberDomainService.find(1L)
+            memberDomainService.findById(1L)
         }
     }
 
     @Test
-    fun `find - 없을때 에러 확인`() {
+    fun `findById - 없을때 에러 확인`() {
         // given
         whenever(memberRepository.findById(any())).thenReturn(null)
 
         // when & then
         shouldThrow<NotFoundResourceException> {
-            memberDomainService.find(1L)
+            memberDomainService.findByFirebaseToken("sample_firebase_token")
+        }.let {
+            it.errorCode shouldBe ErrorCode.RESOURCE_NOT_FOUND
+            it.message shouldBe "Member 리소스를 찾을 수 없습니다."
+        }
+    }
+
+    @Test
+    fun `findByFirebaseToken - 정상동작 확인`() {
+        // given
+        val member = Member(id = 1L, firebaseToken = "sample_firebase_token", nickname = "ch4njun")
+        whenever(memberRepository.findByFirebaseToken(any())).thenReturn(member)
+
+        // when & then
+        shouldNotThrow<NotFoundResourceException> {
+            memberDomainService.findByFirebaseToken("sample_firebase_token")
+        }
+    }
+
+    @Test
+    fun `findByFirebaseToken - 없을때 에러 확인`() {
+        // given
+        whenever(memberRepository.findByFirebaseToken(any())).thenReturn(null)
+
+        // when & then
+        shouldThrow<NotFoundResourceException> {
+            memberDomainService.findById(1L)
         }.let {
             it.errorCode shouldBe ErrorCode.RESOURCE_NOT_FOUND
             it.message shouldBe "Member 리소스를 찾을 수 없습니다."

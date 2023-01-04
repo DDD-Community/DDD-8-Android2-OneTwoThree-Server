@@ -40,7 +40,7 @@ class AlarmServiceTest {
             endTime = LocalTime.of(18, 0),
             count = 5
         )
-        whenever(memberDomainService.find(any())).thenReturn(member.apply { this.id = 1L })
+        whenever(memberDomainService.findById(any())).thenReturn(member.apply { this.id = 1L })
         whenever(alarmRepository.save(any())).thenReturn(alarm.apply { this.id = 1L })
         whenever(pushRepository.saveAll(any()))
             .thenReturn(
@@ -72,7 +72,7 @@ class AlarmServiceTest {
             endTime = LocalTime.of(18, 0),
             count = 5
         )
-        whenever(memberDomainService.find(any())).thenThrow(NotFoundResourceException(Member::class))
+        whenever(memberDomainService.findById(any())).thenThrow(NotFoundResourceException(Member::class))
 
         // when & then
         shouldThrow<NotFoundResourceException> {

@@ -52,7 +52,7 @@ internal class MemberServiceTest {
         // given
         val firebaseToken = "sample_firebase_token"
         val member = Member(id = 1L, firebaseToken = firebaseToken, nickname = "ch4njun")
-        whenever(memberRepository.findByFirebaseToken(firebaseToken)).thenReturn(member)
+        whenever(memberDomainService.findByFirebaseToken(firebaseToken)).thenReturn(member)
 
         // when & then
         memberService.find(firebaseToken).let {
@@ -66,7 +66,7 @@ internal class MemberServiceTest {
     fun `find - 없는 사용자일 경우 에러 확인`() {
         // given
         val firebaseToken = "unknown_token"
-        whenever(memberRepository.findByFirebaseToken(firebaseToken)).thenReturn(null)
+        whenever(memberDomainService.findByFirebaseToken(firebaseToken)).thenThrow(NotFoundResourceException(Member::class))
 
         // when & then
         shouldThrow<NotFoundResourceException> {
