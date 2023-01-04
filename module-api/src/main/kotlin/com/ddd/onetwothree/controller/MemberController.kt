@@ -26,7 +26,7 @@ class MemberController(
             .let { ResponseEntity.ok(it) }
     }
 
-    @PutMapping("/{memberId}")
+    @PutMapping("/{memberId}/nickname")
     fun changeNickname(@PathVariable memberId: Long, @RequestBody req: ChangeNicknameRequest): ResponseEntity<Unit> {
         return memberService.changeNickname(memberId, req.nickname)
             .let { ResponseEntity.ok() }
