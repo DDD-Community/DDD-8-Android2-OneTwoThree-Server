@@ -13,4 +13,8 @@ class Member(
     var nickname: String
 
 ): Base() {
+    fun changeNickname(nickname: String): Member {
+        this.nickname = nickname
+        return this
+    }
 }

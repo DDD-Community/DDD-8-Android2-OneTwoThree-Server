@@ -7,5 +7,9 @@ class ResponseEntity<T>(
         fun <T> ok(data: T): ResponseEntity<T> {
             return ResponseEntity(data)
         }
+
+        fun ok(): ResponseEntity<Unit> {
+            return ResponseEntity(Unit)
+        }
     }
 }
