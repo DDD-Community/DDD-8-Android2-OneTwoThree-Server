@@ -2,6 +2,7 @@ package com.ddd.onetwothree.service
 
 import com.ddd.onetwothree.controller.request.RegisterRequest
 import com.ddd.onetwothree.entity.Member
+import com.ddd.onetwothree.exception.ErrorCode
 import com.ddd.onetwothree.exception.FirebaseTokenDuplicateException
 import com.ddd.onetwothree.exception.NotFoundResourceException
 import com.ddd.onetwothree.repository.MemberRepository
@@ -41,6 +42,8 @@ internal class MemberServiceTest {
         // when & then
         shouldThrow<FirebaseTokenDuplicateException> {
             memberService.register(req)
+        }.let {
+            it.errorCode shouldBe ErrorCode.FIREBASE_TOKEN_DUPLICATE
         }
     }
 
@@ -68,6 +71,9 @@ internal class MemberServiceTest {
         // when & then
         shouldThrow<NotFoundResourceException> {
             memberService.find(firebaseToken)
+        }.let {
+            it.errorCode shouldBe ErrorCode.RESOURCE_NOT_FOUND
+            it.message shouldBe "Member 리소스를 찾을 수 없습니다."
         }
     }
 

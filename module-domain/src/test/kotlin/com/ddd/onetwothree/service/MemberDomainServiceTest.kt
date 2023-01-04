@@ -1,6 +1,7 @@
 package com.ddd.onetwothree.service
 
 import com.ddd.onetwothree.entity.Member
+import com.ddd.onetwothree.exception.ErrorCode
 import com.ddd.onetwothree.exception.FirebaseTokenDuplicateException
 import com.ddd.onetwothree.exception.NotFoundResourceException
 import com.ddd.onetwothree.repository.MemberRepository
@@ -9,6 +10,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
 class MemberDomainServiceTest {
@@ -36,6 +38,9 @@ class MemberDomainServiceTest {
         // when & then
         shouldThrow<NotFoundResourceException> {
             memberDomainService.find(1L)
+        }.let {
+            it.errorCode shouldBe ErrorCode.RESOURCE_NOT_FOUND
+            it.message shouldBe "Member 리소스를 찾을 수 없습니다."
         }
     }
 
@@ -49,6 +54,8 @@ class MemberDomainServiceTest {
         // when & then
         shouldThrow<FirebaseTokenDuplicateException> {
             memberDomainService.duplicateCheckFirebaseToken(firebaseToken)
+        }.let {
+            it.errorCode shouldBe ErrorCode.FIREBASE_TOKEN_DUPLICATE
         }
     }
 
