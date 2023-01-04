@@ -1,5 +1,8 @@
 package com.ddd.onetwothree.service
 
+import com.ddd.onetwothree.entity.Member
+import com.ddd.onetwothree.exception.FirebaseTokenDuplicateException
+import com.ddd.onetwothree.exception.NotFoundResourceException
 import com.ddd.onetwothree.repository.MemberRepository
 import org.springframework.stereotype.Service
 
@@ -8,9 +11,14 @@ class MemberDomainService(
     private val memberRepository: MemberRepository
 ) {
 
+    fun find(memberId: Long): Member {
+        return memberRepository.findById(memberId)
+            ?: throw NotFoundResourceException(Member::class)
+    }
+
     fun duplicateCheckFirebaseToken(firebaseToken: String) {
         if (memberRepository.findByFirebaseToken(firebaseToken) != null) {
-            throw RuntimeException()
+            throw FirebaseTokenDuplicateException()
         }
     }
 

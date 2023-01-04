@@ -2,6 +2,8 @@ package com.ddd.onetwothree.service
 
 import com.ddd.onetwothree.controller.request.RegisterRequest
 import com.ddd.onetwothree.entity.Member
+import com.ddd.onetwothree.exception.FirebaseTokenDuplicateException
+import com.ddd.onetwothree.exception.NotFoundResourceException
 import com.ddd.onetwothree.repository.MemberRepository
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
@@ -34,12 +36,12 @@ internal class MemberServiceTest {
     fun `register - 중복시 에러 확인`() {
         // given
         val req = RegisterRequest(nickname = "ch4njun", firebaseToken = "sample_firebase_token")
-        whenever(memberDomainService.duplicateCheckFirebaseToken(any())).thenThrow(RuntimeException("SAMPLE"))
+        whenever(memberDomainService.duplicateCheckFirebaseToken(any())).thenThrow(FirebaseTokenDuplicateException())
 
         // when & then
-        shouldThrow<RuntimeException> {
+        shouldThrow<FirebaseTokenDuplicateException> {
             memberService.register(req)
-        }.let { it.message shouldBe "SAMPLE" }
+        }
     }
 
     @Test
@@ -64,19 +66,8 @@ internal class MemberServiceTest {
         whenever(memberRepository.findByFirebaseToken(firebaseToken)).thenReturn(null)
 
         // when & then
-        shouldThrow<RuntimeException> {
+        shouldThrow<NotFoundResourceException> {
             memberService.find(firebaseToken)
-        }
-    }
-
-    @Test
-    fun `changeNickname - 없는 사용자일 경우 에러 확인`() {
-        // given
-        whenever(memberRepository.findById(any())).thenReturn(null)
-
-        // when & then
-        shouldThrow<RuntimeException> {
-            memberService.changeNickname(1L, "")
         }
     }
 

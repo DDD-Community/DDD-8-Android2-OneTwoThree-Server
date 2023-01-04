@@ -16,10 +16,9 @@ class AlarmController(
 ) {
 
     @PostMapping
-    fun createAlarm(@RequestBody req: CreateAlarmRequest): ResponseEntity<AlarmResponse> {
-        return alarmService.create(req).let {
-            ResponseEntity.ok(it)
-        }
+    fun createAlarm(@RequestBody req: CreateAlarmRequest): ResponseEntity<Unit> {
+        return alarmService.create(req)
+            .let { ResponseEntity.ok() }
     }
 
 }
