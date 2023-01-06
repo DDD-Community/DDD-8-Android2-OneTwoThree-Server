@@ -22,4 +22,6 @@ class StretchingAuth(
     var day: Int,
     var authTime: LocalTime
 
-)
+) : Base() {
+
+}
