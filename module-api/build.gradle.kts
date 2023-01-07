@@ -1,6 +1,7 @@
 
 dependencies {
     implementation(project(":module-domain"))
+    implementation(project(":module-client"))
     implementation(project(":module-common"))
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
