@@ -10,6 +10,7 @@ interface StretchingAuthRepository: Repository<StretchingAuth, Long> {
     @Modifying
     fun save(stretchingAuth: StretchingAuth): StretchingAuth
 
+    fun findAllByMemberAndYearAndMonth(member : Member, year: Int, month: Int): List<StretchingAuth>
     fun findAllByMemberAndYearAndMonthAndDay(member: Member, year: Int, month: Int, day: Int): List<StretchingAuth>
 
 }
