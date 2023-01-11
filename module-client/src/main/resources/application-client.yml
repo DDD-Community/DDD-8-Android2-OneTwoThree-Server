@@ -1,0 +1,9 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+openapi:
+  baseUrl: http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo
+  serviceKey: ePmq1z1bCLP7SSdXdAmpErGcsfssuszhls22BDMCIgZtodYTol6M2oRlHtCbfpWwQcXYOESfVxBk5iM2NDiZeA==
