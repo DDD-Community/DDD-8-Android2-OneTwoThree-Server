@@ -49,7 +49,7 @@ CREATE TABLE stretching_auth (
 
     created_at timestamp not null default current_timestamp,
     updated_at timestamp not null default current_timestamp on update current_timestamp
-)
+);
 create index idx_stretchingauth_memberid on stretching_auth(member_id);
 create index idx_stretchingauth_year on stretching_auth(year);
 create index idx_stretchingauth_month on stretching_auth(month);
