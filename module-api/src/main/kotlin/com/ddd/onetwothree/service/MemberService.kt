@@ -30,4 +30,8 @@ class MemberService(
         }
     }
 
+    fun delete(memberId: Long) {
+        memberRepository.deleteById(memberId)
+    }
+
 }

@@ -36,4 +36,10 @@ class MemberController(
             .let { ResponseEntity.ok() }
     }
 
+    @DeleteMapping("/{id}")
+    fun deleteMember(@PathVariable id: Long): ResponseEntity<Unit> {
+        return memberService.delete(id)
+            .let { ResponseEntity.ok() }
+    }
+
 }
